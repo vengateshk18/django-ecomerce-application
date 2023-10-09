@@ -1,0 +1,39 @@
+.carousel-item img{
+    object-fit:cover;
+    object-position:top;
+    height:60vh;
+    overflow:hidden;
+}
+/* #carouselExampleIndicators{
+    width:300px;
+} */
+.old_price{
+    font-weight: bold;
+    color: red;
+}
+.original_price{
+    color: green;
+}
+ a:hover{
+    color:green;
+ }
+ a{
+    color:blue;
+ }
+ .hot{
+    background-color: orangered;
+    color:white;
+    right:70px;
+    top:30px;
+    display:inline;
+    font-weight:bold;
+    z-index: 10;
+    border-radius: 5px;
+    padding:1px;
+    padding-right:2px;
+    padding-left:2px;
+    position: absolute;
+ }
+ .hot-box{
+    position: relative;
+ }

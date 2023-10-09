@@ -1,0 +1,108 @@
+{% extends 'layout/main.html'%}
+{% block content %}
+{% load static%}
+  {% include 'include/nav.html' %}
+  <section class="bg-light py-4 my-5" >
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3>{{product | upper}} Details</h3>
+                <hr style="border-color:aqua;">
+            </div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'collections'%}">Collections</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'collections_product' category %}">{{category}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{product}}</li>
+                </ol>
+              </nav>
+            <div class="col-4 p-5 hot-box">
+                <img class="card-image-item" src="{{product.product_image.url}}" alt="products" width="300" height="200">
+                {% if product.trending %}
+                <button class="hot align-items-start" title="Trending Product">Hot <i class="fa fa-heart"></i></button>
+                {% endif%}
+                {% include 'include/message.html'%}
+            </div>
+            <div class="col-8 my-5">
+                <h5 class="text text-primary">{{product | upper}} Details</h5>
+                <p class="text text-success">Seller Name:{{product.vendor | upper}}</p>
+                <p><span class="text text-danger">{{product.description | upper}}</span> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi soluta ut aliquid libero. Exercitationem blanditiis quos ab totam labore accusantium et non, quod temporibus? Excepturi cupiditate repellat alias doloremque laboriosam.</p>
+                <h6 class="my-2 text text-danger">Current price Rs. <s>{{product.old_price}}&#8377</s></h5>
+                <h5 class="my-2 text text-primary">Offer Price Rs.{{product.original_price}}&#8377</h6>
+                    <div class="my-3">
+                        {% if product.quantity > 0 %}
+                          <input type="hidden" value="{{product.id}}" id="pid">
+                            {% csrf_token %}
+                            <p> <div class="input-group" style="width:150px;">
+                               <button id="btnPlus" class="input-group-text bg-success text-light"><i class="fa fa-minus"></i></button>
+                                 <input id="btnQty" type="text" name="qty" id="txtQty" value="1"class="form-control text-center">
+                                <button id="btnMinus" class="input-group-text bg-success text-light"><i class="fa fa-plus"></i></button>
+                             </div>
+                            </p>
+                          <button class="btn btn-primary" id="btnCart"><i class="fa fa-shopping-cart">add to cart</i></button>
+                        {% else %}
+                          <button class="btn btn-secondary"><i class="fa fa-minus">Out Of Stock</i></button>
+                        {% endif %}
+                        <button class="btn btn-danger"><i class="fa fa-heart"></i></button>
+                    </div>
+            </div>
+        </div>
+    </div>
+  </section>
+  <script>
+    document.addEventListener("DOMContentLoaded",function(event){
+      const plus=document.getElementById("btnPlus")
+      const text=document.getElementById("btnQty")
+      const minus=document.getElementById("btnMinus")
+      const pid=document.getElementById("pid")
+      const tkn=document.querySelector('[name="csrfmiddlewaretoken"]').value
+      const cart=document.getElementById("btnCart")
+      plus.addEventListener("click",function(){
+        let qty=parseInt(text.value,10);
+        qty=isNaN(qty)?0:qty;
+        console.log(qty)
+        if(qty>2){
+          qty--;
+          text.value=qty;
+        }
+      })
+      minus.addEventListener("click",function(){
+        let qty=parseInt(text.value,10);
+        qty=isNaN(qty)?0:qty;
+        console.log(qty)
+        if(qty<10){
+          qty++;
+          text.value=qty;
+        }
+      })
+      cart.addEventListener("click",function(){
+        let qty=parseInt(text.value,10)
+        qty=isNaN(qty)?0:qty;
+        if(qty>0){
+          let qty1={
+            product_qty:qty,
+            pid:pid.value,
+          }
+          fetch("/addtocart",{
+            method:"POST",
+            credentials:"same-origin",
+            headers:{
+              'Accept':'application/json',
+              'X-Requested-With':'XMLHttpRequest',
+              'X-CSRFToken':'{{ csrf_token }}',
+            },
+            body:JSON.stringify(qty1)
+          }).then(response =>{
+            return response.json();
+          }).then(data =>{
+            alert(data['status'])
+          })
+        }
+        else{
+           alert("Please enter the quantity")
+        }
+      })
+    })
+  </script>
+  {% endblock content %}

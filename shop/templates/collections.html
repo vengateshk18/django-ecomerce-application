@@ -1,0 +1,41 @@
+{% extends 'layout/main.html' %}
+{% block content %}
+  {% include 'include/nav.html' %}
+      <div class="container">
+         <section class="py-5 text-center container" style="margin-top:70px;">
+          <div class="row py-lg-5">
+            <div class="col-lg-6 mx-auto col-md-8">
+              <h1 class="fw-light">Best sellers</h1>
+              <p class="text-muted"> our most selling product in sale|shop now!!!</p>
+              <p><a href="#" class="btn btn-primary my-2">Register</a>
+                <a href="#" class="btn btn-danger my-2">Already a user</a>
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <section class="bg-light py-4 my-5">
+         <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">catagories</div>
+              {% include 'include/message.html'%}
+              <hr style="border-color:rebeccapurple;">
+            </div>
+            {% for item in catagory%}
+            <div class="col-lg-3 col-md-4">
+              <div class="card my-3">
+                <img src="{{item.image.url}}" class="card-image-item" alt="Catagory-image">
+                  <a href="{% url 'collections_product' category=item.name %}">
+                  <div class="card-body">
+                  <h5 class="card-title text-primary">{{item.name | upper}}</h5>
+                  <a href="{% url 'collections_product' category=item.name %}" class="btn btn-primary btn-sm">view details</a>
+                </div>
+              </a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+         </div>
+      </section>
+ {% endblock content %}

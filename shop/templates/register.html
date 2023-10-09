@@ -1,0 +1,62 @@
+{% extends 'layout/main.html' %}
+{% block content %}
+  {% include 'include/nav.html' %}
+  <div class="container " style="min-height:500px;">
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <h4>User Registration</h4>
+          {% include 'include/message.html'%}
+          <div class="containter">
+            <div class="row">
+              <div class="col-6">
+                <form  method="post" action="">
+                  {% csrf_token %}
+                  <div class="mb-4">
+                     <label for="">Username</label>
+                      {{form.username}}    
+                  </div>
+                  <div class="mb-4">
+                    <label for="">Email</label>
+                    {{form.email}}
+                  </div> 
+                  <div class="mb-4">
+                    <label for="">Password</label>
+                     {{form.password1}}
+                  </div> 
+                  <div class="mb-4">
+                    <label for="">Confirm Password</label>
+                     {{form.password2}}
+                  </div> 
+                  <div class="mb-4">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                  </div>
+                </form>
+                <p>Already An User <a href="{% url 'login'%}">Login</a></p>
+              </div>
+              <div class="col-6">
+                {% if form.errors.username%}
+                  <label class="text-danger d-block">{{form.errors.username}}</label>
+                {% endif %}
+
+                {% if form.errors.email %}
+                    <label class="text-danger d-block">{{form.errors.email}}</label>
+                {% endif %}
+
+                {% if form.errors.password1 %}
+                    <label class="text-danger d-block">{{form.errors.password1}}</label>
+                {% endif %}
+
+                {% if form.errors.password2 %}
+                  <label class="text-danger d-block">{{form.errors.password2}}</label>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ {% endblock content%}
+ 

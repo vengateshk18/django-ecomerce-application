@@ -1,0 +1,41 @@
+{% extends 'layout/main.html'%}
+{% block content %}
+  {% include 'include/nav.html' %}
+      <section class="bg-light py-4 my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3"> {{category | upper}} Products</div>
+                    <hr style="border-color: aqua;">
+                </div>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'collections'%}">Collections</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{category}}</li>
+                  </ol>
+                </nav>
+                {% include 'include/message.html'%}
+            {% for item in products%}
+            <div class="col-lg-3 col-md-4">
+              <div class="card my-3">
+                <img src="{{item.product_image.url}}" class="card-image-item" alt="Catagory-image" width="300px" height="200px">
+                <hr>
+                  <a href="{% url 'product_name' category item.name %}">
+                  <div class="card-body">
+                  <h5 class="card-title text-primary">{{item.name | upper}}</h5>
+                  <p class="card-text">
+                    <span class="old_price float-start" style="color:red;">Rs.<s>{{item.old_price | stringformat:'d'}}&#8377</s></span>
+                    <span class="original_price float-end" style="background-color:green; color:white;">Rs.{{item.original_price | stringformat:'d'}}&#8377</span>
+                  </p>
+                  
+                </div>
+                <a href="{% url 'product_name' category item.name %}" class="btn btn-primary btn-sm m-3">view details</a>
+              </a>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+      </section>
+ {% endblock content %}

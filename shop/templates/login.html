@@ -1,0 +1,34 @@
+{% extends 'layout/main.html' %}
+{% block content %}
+  {% include 'include/nav.html' %}
+  <div class="container " style="min-height:500px;">
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <h4>User Login</h4>
+          {% include 'include/message.html'%}
+          <div class="containter">
+            <div class="row">
+              <div class="col-6">
+                  <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="mb-4"> 
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Username" name="username">
+                    </div>
+                    <div class="mb-4">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="mb-4">
+                        <button type="submit" class="btn btn-danger">Login</button>
+                    </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ {% endblock content %}

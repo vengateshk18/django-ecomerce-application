@@ -1,0 +1,39 @@
+{% extends 'layout/main.html'%}
+{% block content %}
+  {% include 'include/nav.html' %}
+      <section class="bg-light py-4 my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">Cart Items</div>
+                    <hr style="border-color: aqua;">
+                </div>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                  </ol>
+                </nav>
+            {% include 'include/message.html'%}
+            <table class="table table-danger table-hover table-bordered table-rounded border-dark align-top">
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+                {% for item in product %}
+                     <tr>
+                        <td><img src="{{item.product.product_image.url}}" height="100px" alt=""></td>
+                        <td>{{item.product.name}}</td>
+                        <td>{{item.product_qty}}</td>
+                        <td style="color:rebeccapurple;"">Rs.{{item.product.original_price | stringformat:'d'}}&#8377</td>
+                        <td><a href="{% url 'RemoveCart' item.id %}"><button  onclick="return confirm('Are you sure to delete?')" class="btn btn-danger"><i class="fa fa-trash">Remove</i></button></a></td>
+                     </tr>
+                {% endfor %}
+            </table>
+            </div>
+        </div>
+      </section>
+ {% endblock content %}
